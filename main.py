@@ -6,13 +6,15 @@ from lib_struct import database_structure, get_lib_struct_signals
 if __name__ == "__main__":
     from config import signal_ids, proc_num, test_windows, calendar_path, instrument_info_path
     from config import md_by_instru_dir, major_minor_dir, available_universe_dir, sig_dir, simu_dir
-    from config import concerned_instruments_universe, bgn_date, cost_reservation, cost_rate, minimum_weight_threshold
+    from config import concerned_instruments_universe, bgn_date, cost_reservation, cost_rate
     from config import selected_indicators
 
-    today, default_init_premium = dt.datetime.now().strftime("%Y%m%d"), "1000"
+    today, default_init_premium, default_minimum_weight_threshold = dt.datetime.now().strftime("%Y%m%d"), "1000", "0.003"
     stp_date = input(f"Please input the STP-DATE of simulation, format = [YYYYMMDD], default is {today}:") or today
     init_premium = input(f"Please input the init-premium, unit = WANYUAN, default = {default_init_premium}:") or default_init_premium
+    minimum_weight_threshold = input(f"Please input the minimum weight threshold, default = {default_minimum_weight_threshold}:") or default_minimum_weight_threshold
     init_premium = int(init_premium) * 1e4
+    minimum_weight_threshold = float(minimum_weight_threshold)
 
     database_structure.update({_: get_lib_struct_signals(_) for _ in signal_ids})
     cal_simulations_mp(
